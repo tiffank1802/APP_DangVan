@@ -31,4 +31,5 @@ if st.button("Compute and Plot"):
     ax.grid(True)
     st.pyplot(fig)
 
+
 st.write("This app computes the Dang Van criterion for fatigue analysis under uniaxial and torsion loading.")
