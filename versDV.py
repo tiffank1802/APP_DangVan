@@ -132,7 +132,7 @@ def nuage(sigma1,omega,pasTemps,fin):
     """
     points = np.array([0,0])
     tensTot = genereTens(sigma1,omega,pasTemps,fin)
-    for t in range(int(fin/pasTemps)):
+    for t in range(int(fin/pasTemps)+1):
         tens = tensTot[t]
         cisMax,_ = amplitudeTangMax(tens)
         hydros = hydro(tens)
@@ -149,7 +149,7 @@ def nuageOrt(sigma1,omega,pasTemps,fin):
     """
     points = np.array([0,0])
     tensTot = genereTensOrt(sigma1,omega,pasTemps,fin)
-    for t in range(int(fin/pasTemps)):
+    for t in range(int(fin/pasTemps)+1):
         tens = tensTot[t]
         cisMax,_ = amplitudeTangMax(tens)
         hydros = hydro(tens)
@@ -309,7 +309,7 @@ class DangVan:
         """
         points = np.array([0, 0])
         tensTot = DangVan.genereTens(sigma1, omega, pasTemps, fin)
-        for t in range(int(fin / pasTemps)):
+        for t in range(int(fin / pasTemps)+1):
             tens = tensTot[t]
             cisMax, _ = DangVan.amplitudeTangMax(tens)
             hydros = DangVan.hydro(tens)
@@ -325,7 +325,7 @@ class DangVan:
         """
         points = np.array([0, 0])
         tensTot = DangVan.genereTensOrt(sigma1, omega, pasTemps, fin)
-        for t in range(int(fin / pasTemps)):
+        for t in range(int(fin / pasTemps)+1):
             tens = tensTot[t]
             cisMax, _ = DangVan.amplitudeTangMax(tens)
             hydros = DangVan.hydro(tens)
