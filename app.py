@@ -23,11 +23,11 @@ st.set_page_config(
 # CSS personnalisé avec les couleurs de l'école
 st.markdown("""
 <style>
-    /* Palette de couleurs Centrale Lyon */
+    /* Palette de couleurs Centrale Lyon (version rouge) */
     :root {
-        --primary-blue: #0055A4;
-        --secondary-blue: #0072CE;
-        --accent-red: #D52B1E;
+        --primary-red: #D52B1E;
+        --secondary-red: #B22222;
+        --accent-red: #8B0000;
         --light-gray: #F5F5F5;
         --dark-gray: #333333;
     }
@@ -39,7 +39,7 @@ st.markdown("""
     
     /* Header stylisé */
     .centrale-header {
-        background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+        background: linear-gradient(90deg, var(--primary-red) 0%, var(--secondary-red) 100%);
         padding: 1.5rem;
         border-radius: 0 0 10px 10px;
         color: white;
@@ -71,7 +71,7 @@ st.markdown("""
     }
     
     .stButton>button {
-        background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+        background: linear-gradient(90deg, var(--primary-red) 0%, var(--secondary-red) 100%);
         color: white;
         border: none;
         padding: 0.5rem 1rem;
@@ -79,10 +79,10 @@ st.markdown("""
         font-weight: bold;
         transition: all 0.3s ease;
     }
-    
+
     .stButton>button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 85, 164, 0.3);
+        box-shadow: 0 4px 8px rgba(213, 43, 30, 0.3);
     }
     
     /* Sidebar styling */
@@ -110,13 +110,13 @@ st.markdown("""
     
     /* Séparateurs */
     .stDivider {
-        border-color: var(--primary-blue);
+        border-color: var(--primary-red);
     }
     
     /* Metric cards */
     [data-testid="stMetricValue"] {
         font-size: 1.5rem !important;
-        color: var(--primary-blue) !important;
+        color: var(--primary-red) !important;
     }
     
     [data-testid="stMetricLabel"] {
@@ -129,6 +129,16 @@ st.markdown("""
         background-color: var(--light-gray);
         padding: 0.5rem;
         border-radius: 8px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 4px !important;
+        padding: 0.5rem 1rem !important;
+    }
+
+    .stTabs [data-baseweb="tab"][aria-selected="true"] {
+        background-color: var(--primary-red) !important;
+        color: white !important;
     }
     
     .stTabs [data-baseweb="tab"] {
@@ -153,8 +163,8 @@ with st.sidebar:
     # Logo dans la sidebar
     st.markdown("""
     <div style="text-align: center; padding: 1rem;">
-        <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/2/2d/Logo_%C3%89cole_centrale_de_Lyon.svg/1200px-Logo_%C3%89cole_centrale_de_Lyon.svg.png" 
-             width="150" style="margin-bottom: 1rem;">
+        <img src="https://images.seeklogo.com/logo-png/48/2/ecole-centrale-de-lyon-logo-png_seeklogo-481949.png"
+              width="150" style="margin-bottom: 1rem;">
     </div>
     """, unsafe_allow_html=True)
     
@@ -264,23 +274,23 @@ if compute_button:
         
         # Tracé des points
         scatter1 = ax.scatter(
-            points_uniaxial[:, 0], 
-            points_uniaxial[:, 1], 
+            points_uniaxial[:, 0],
+            points_uniaxial[:, 1],
             s=point_size,
             alpha=0.7,
             label='Traction-Compression',
-            color='#0055A4',  # Bleu Centrale Lyon
+            color='#D52B1E',  # Rouge Centrale Lyon
             edgecolors='white',
             linewidth=1
         )
-        
+
         scatter2 = ax.scatter(
-            points_torsion[:, 0], 
-            points_torsion[:, 1], 
+            points_torsion[:, 0],
+            points_torsion[:, 1],
             s=point_size,
             alpha=0.7,
             label='Torsion',
-            color='#D52B1E',  # Rouge Centrale Lyon
+            color='#B22222',  # Rouge secondaire
             edgecolors='white',
             linewidth=1
         )
@@ -297,9 +307,11 @@ if compute_button:
         ax.legend(loc='best', frameon=True, fancybox=True, shadow=True)
         
         # Ajustement des limites
-        ax.set_xlim([min(points_uniaxial[:, 0].min(), points_torsion[:, 0].min()) - 10,
-                    max(points_uniaxial[:, 0].max(), points_torsion[:, 0].max()) + 10])
-        ax.set_ylim([0, max(points_uniaxial[:, 1].max(), points_torsion[:, 1].max()) + 10])
+        xlim_min = min(points_uniaxial[:, 0].min(), points_torsion[:, 0].min()) - 10
+        xlim_max = max(points_uniaxial[:, 0].max(), points_torsion[:, 0].max()) + 10
+        ylim_max = max(points_uniaxial[:, 1].max(), points_torsion[:, 1].max()) + 10
+        ax.set_xlim(xlim_min, xlim_max)
+        ax.set_ylim(0, ylim_max)
         
         progress_bar.progress(100)
         st.success("Calcul terminé avec succès !")
@@ -328,9 +340,16 @@ if compute_button:
     with col_res3:
         mean_hydro = np.mean(points_uniaxial[:, 0])
         st.metric(
-            label="Pression hydro. moyenne", 
+            label="Pression hydro. moyenne",
             value=f"{mean_hydro:.1f} MPa",
             delta="Uniaxial"
+        )
+
+    with col_res4:
+        max_shear = max(points_uniaxial[:, 1].max(), points_torsion[:, 1].max())
+        st.metric(
+            label="Cisaillement max",
+            value=f"{max_shear:.1f} MPa"
         )
     
     with col_res4:
