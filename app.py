@@ -223,8 +223,9 @@ with st.sidebar:
         - Éric FEULVACH
         - Françoise FAUVIN
 
-        **UE :** Mécanique des Matériaux
-        **Date :** 2024""")
+        **UE :** Projet de recherche et innovation
+        **Thème :** Analyse en fatigue de structures industrielles soumises à des chargements complexes.
+        **Date :** 2026""")
     
     with st.expander("📊 Options d'affichage"):
         point_size = st.slider("Taille des points", 10, 100, 30)
