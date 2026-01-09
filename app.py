@@ -216,14 +216,15 @@ with st.sidebar:
     with st.expander("ℹ️ Informations"):
         st.markdown("""
         **Étudiants :**
-        - Prénom NOM
-        - Prénom NOM
-        
-        **Enseignant :**
-        - Dr. Prénom NOM
-        
+        - Kevin TONGUE
+        - Paul LORTHIOIR
+
+        **Enseignants :**
+        - Éric FEULVACH
+        - Françoise FAUVIN
+
         **UE :** Mécanique des Matériaux
-        **Date :** """ + st.session_state.get('date', '2024'))
+        **Date :** 2024""")
     
     with st.expander("📊 Options d'affichage"):
         point_size = st.slider("Taille des points", 10, 100, 30)
