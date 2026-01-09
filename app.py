@@ -5,6 +5,13 @@ import versDV as dv
 import deviatoire as dev
 from math import pi
 
+# Import pandas for data export (optional)
+try:
+    import pandas as pd
+    PANDAS_AVAILABLE = True
+except ImportError:
+    PANDAS_AVAILABLE = False
+
 # Configuration de la page avec le thème École Centrale Lyon
 st.set_page_config(
     page_title="Critère de Dang Van - École Centrale Lyon",
@@ -383,15 +390,13 @@ if compute_button:
     
     with tab3:
         st.markdown("#### Options d'export")
-        
-        # Conversion en DataFrame pandas si disponible
-        try:
-            import pandas as pd
+
+        if PANDAS_AVAILABLE:
             df_uniaxial = pd.DataFrame(points_uniaxial, columns=['Pression_hydrostatique', 'Cisaillement_max'])
             df_torsion = pd.DataFrame(points_torsion, columns=['Pression_hydrostatique', 'Cisaillement_max'])
-            
+
             col_exp1, col_exp2 = st.columns(2)
-            
+
             with col_exp1:
                 st.download_button(
                     label="📥 Télécharger données uniaxial (CSV)",
@@ -400,7 +405,7 @@ if compute_button:
                     mime="text/csv",
                     use_container_width=True
                 )
-            
+
             with col_exp2:
                 st.download_button(
                     label="📥 Télécharger données torsion (CSV)",
@@ -409,8 +414,8 @@ if compute_button:
                     mime="text/csv",
                     use_container_width=True
                 )
-        except:
-            st.info("Importez pandas pour activer l'export CSV")
+        else:
+            st.info("Installez pandas pour activer l'export CSV : `pip install pandas`")
         
         # Export de l'image
         if 'fig' in locals():
