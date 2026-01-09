@@ -281,7 +281,6 @@ if compute_button:
             s=point_size,
             alpha=0.7,
             label='Traction-Compression',
-            color='#D52B1E',  # Rouge Centrale Lyon
             edgecolors='white',
             linewidth=1
         )
@@ -292,7 +291,6 @@ if compute_button:
             s=point_size,
             alpha=0.7,
             label='Torsion',
-            color='#B22222',  # Rouge secondaire
             edgecolors='white',
             linewidth=1
         )
